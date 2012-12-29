@@ -49,6 +49,7 @@ GEM
     json (1.7.5)
     jwt (0.1.5)
       multi_json (>= 1.0)
+    libv8 (3.11.8.4)
     livescript (2.2.0)
       execjs
       livescript-source
@@ -151,6 +152,7 @@ PLATFORMS
 
 DEPENDENCIES
   haml-rails
+  libv8
   livescript-rails
   oauth-plugin
   pg

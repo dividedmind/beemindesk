@@ -31,19 +31,18 @@ class OauthConsumersController < ApplicationController
   end
   
   def logged_in?
-    true
+    !session[:user_id].nil?
   end
   
   def current_user
-    u = Object.new
-    class << u
-      def id
-        'foo'
-      end
-    end
-    u
+    User.find(session[:user_id]) rescue nil
   end
 
+  def current_user=(user)
+    session[:user_id] = user.id
+  end
+
+  
   # The plugin requires logged_in? to return true or false if the user is logged in. Uncomment and
   # call your auth frameworks equivalent below if different. eg. for devise:
   #

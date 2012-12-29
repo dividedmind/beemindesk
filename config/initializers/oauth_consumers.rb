@@ -62,16 +62,15 @@
 #   }
 # }
 #
+
+odesk = ENV['ODESK_API_CREDENTIALS'].split(':')
+
 OAUTH_CREDENTIALS={
   odesk: {
-          key: '',
-          secret: '',
-          options: { 
-                    site: 'https://www.odesk.com',
-                    request_token_path: '/api/auth/v1/oauth/token/request',
-                   access_token_path: '/api/auth/v1/oauth/token/access',
-                   authorize_path: '/services/api/auth'
-                   }
+          key: odesk[0],
+          secret: odesk[1],
+          allow_login: true,
+          expose: true
   }
 } unless defined? OAUTH_CREDENTIALS
 

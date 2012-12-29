@@ -33,33 +33,13 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE consumer_tokens (
-    id integer NOT NULL,
-    user_id integer NOT NULL,
+    user_id character varying(255) NOT NULL,
     type character varying(30),
-    token character varying(1024),
+    token character varying(1024) NOT NULL,
     secret character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
-
-
---
--- Name: consumer_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE consumer_tokens_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: consumer_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE consumer_tokens_id_seq OWNED BY consumer_tokens.id;
 
 
 --
@@ -76,64 +56,31 @@ CREATE TABLE schema_migrations (
 --
 
 CREATE TABLE users (
-    id integer NOT NULL
+    id character varying(255) NOT NULL
 );
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY consumer_tokens ALTER COLUMN id SET DEFAULT nextval('consumer_tokens_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
-
-
---
--- Name: consumer_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: consumer_tokens_pk; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY consumer_tokens
-    ADD CONSTRAINT consumer_tokens_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT consumer_tokens_pk PRIMARY KEY (token);
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: users_pk; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT users_pk PRIMARY KEY (id);
 
 
 --
--- Name: index_consumer_tokens_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: fk__consumer_tokens_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_consumer_tokens_on_token ON consumer_tokens USING btree (token);
+CREATE INDEX fk__consumer_tokens_user_id ON consumer_tokens USING btree (user_id);
 
 
 --
@@ -144,19 +91,17 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
--- Name: token_user_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: consumer_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY consumer_tokens
-    ADD CONSTRAINT token_user_fk FOREIGN KEY (user_id) REFERENCES users(id);
+    ADD CONSTRAINT consumer_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO schema_migrations (version) VALUES ('20121228075238');
+INSERT INTO schema_migrations (version) VALUES ('1');
 
-INSERT INTO schema_migrations (version) VALUES ('20121229065608');
-
-INSERT INTO schema_migrations (version) VALUES ('20121229065802');
+INSERT INTO schema_migrations (version) VALUES ('2');

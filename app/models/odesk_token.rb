@@ -37,5 +37,30 @@ class OdeskToken < ConsumerToken
     def me
       @me ||= get '/api/hr/v2/users/me.json'
     end
+    
+    def hours
+      convert_table(get(URI.escape("/gds/timereports/v1/providers/#{user_id}?tq=SELECT worked_on, hours ORDER BY worked_on DESC"))['table'])
+    end
+    
+    private
+    def convert_table table
+      cols = table['cols']
+      foo = table['rows'].map do |row|
+        Hash[*row['c'].each_with_index.map do |c, i|
+          v = convert_value c['v'], cols[i]['type']
+          l = cols[i]['label']
+          [l, v]
+        end.flatten]
+      end
+    end
+    
+    def convert_value v, type
+      case type
+      when 'date'
+        Date.parse(v)
+      when 'number'
+        v.to_f
+      end
+    end
   end
 end

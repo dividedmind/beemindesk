@@ -6,6 +6,14 @@
       Logged into ODesk as
       = @user.id
     = button_to "logout", oauth_consumer_path(:odesk), method: :delete, class: :destroy
+    
+    %table
+      - for d in @user.hours
+        %tr
+          %td
+            = d['worked_on']
+          %td.number
+            = number_to_human d['hours'], strip_insignificant_zeros: false, significant: false, precision: 2
   - else
     %p
       Not logged into ODesk.

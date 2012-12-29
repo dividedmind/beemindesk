@@ -26,3 +26,14 @@ input {
     background: $primary-3;
   }
 }
+
+table {
+  margin-top: 2em;
+  border-top: $primary-4 solid thin;
+  width: 100%;
+}
+
+.number {
+  text-align: right;
+  padding-right: 1em;
+}

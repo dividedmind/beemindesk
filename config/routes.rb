@@ -1,4 +1,6 @@
 Beemindesk::Application.routes.draw do
+  root to: 'dashboard#index'
+
   resources :oauth_consumers do
     member do
       get :callback

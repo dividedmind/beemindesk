@@ -1,0 +1,12 @@
+%h1 Beemindesk
+%section.odesk
+  %h2 ODesk
+  - if @user && @user.odesk
+    %p
+      Logged into ODesk as
+      = @user.id
+    = button_to "logout", oauth_consumer_path(:odesk), method: :delete, class: :destroy
+  - else
+    %p
+      Not logged into ODesk.
+    = button_to "login", oauth_consumer_path(:odesk), method: :get

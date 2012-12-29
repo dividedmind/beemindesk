@@ -1,0 +1,28 @@
+// Place all the styles related to the dashboard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "_colors";
+
+body {
+  text-align: center;
+}
+
+section {
+  border: $primary-3 solid;
+  max-width: 24em;
+  margin: 2em;
+  padding: 1em 2em;
+  display: inline-block;
+}
+
+input {
+  border: $primary-3 solid thin;
+  background: inherit;
+  font: inherit;
+  color: $primary-1;
+  
+  &:hover {
+    background: $primary-3;
+  }
+}

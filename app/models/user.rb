@@ -4,11 +4,11 @@ class User < ActiveRecord::Base
   has_one  :beeminder, :class_name => "BeeminderToken", :dependent => :destroy
   
   def hours
-    odesk.client.hours
+    @hours ||= odesk.client.hours
   end
   
   def goal
-    beeminder.goal
+    @goal ||= beeminder.goal
   end
   
   def datapoints

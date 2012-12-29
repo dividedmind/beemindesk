@@ -23,8 +23,10 @@ class BeeminderController < ApplicationController
   end
   
   def push_data
-    datapoints = current_user.hours.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
-    current_user.goal.add datapoints
+    dps = current_user.hours.reverse.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
+    dps.delete_if {|dp| already_pushed? dp }
+    current_user.goal.add dps
+    redirect_to root_path
   end
   
   private
@@ -38,5 +40,15 @@ class BeeminderController < ApplicationController
   
   def callback_uri
     CGI::escape(url_for controller: 'beeminder', action: 'callback')
+  end
+  
+  def datapoints
+    @datapoints ||= current_user.datapoints
+  end
+  
+  def already_pushed? dp
+    datapoints.index do |d| 
+      (d.timestamp.to_date == dp.timestamp.to_date) && ((d.value - dp.value).abs < 0.1)
+    end
   end
 end

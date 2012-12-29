@@ -39,7 +39,7 @@ class OdeskToken < ConsumerToken
     end
     
     def hours
-      convert_table(get(URI.escape("/gds/timereports/v1/providers/#{user_id}?tq=SELECT worked_on, hours ORDER BY worked_on DESC"))['table'])
+      convert_table(get(URI.escape("/gds/timereports/v1/providers/#{user_id}?tq=SELECT worked_on, SUM(hours) ORDER BY worked_on DESC"))['table'])
     end
     
     private

@@ -20,7 +20,6 @@ class OauthConsumersController < ApplicationController
     super
   end
 
-
   protected
 
   # Change this to decide where you want to redirect user to after callback is finished.
@@ -29,19 +28,6 @@ class OauthConsumersController < ApplicationController
   def go_back
     redirect_to root_url
   end
-  
-  def logged_in?
-    !session[:user_id].nil?
-  end
-  
-  def current_user
-    User.find(session[:user_id]) rescue nil
-  end
-
-  def current_user=(user)
-    session[:user_id] = user.id
-  end
-
   
   # The plugin requires logged_in? to return true or false if the user is logged in. Uncomment and
   # call your auth frameworks equivalent below if different. eg. for devise:

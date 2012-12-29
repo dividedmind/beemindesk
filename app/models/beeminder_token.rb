@@ -16,14 +16,7 @@ class BeeminderToken < ActiveRecord::Base
   private
   
   def create_client
-    u = Beeminder::User.new access_token, auth_type: :oauth
-    class << u
-      def _connection *a
-        p *a
-        super *a
-      end
-    end
-    u
+    Beeminder::User.new access_token, auth_type: :oauth
   end
   
   def goal_name

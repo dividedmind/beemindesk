@@ -3,6 +3,7 @@ Beemindesk::Application.routes.draw do
   resource :beeminder, controller: :beeminder do
     get 'callback'
     post 'create_goal'
+    post 'push_data'
   end
 
   root to: 'dashboard#index'

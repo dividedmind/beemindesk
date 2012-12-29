@@ -22,6 +22,11 @@ class BeeminderController < ApplicationController
     redirect_to root_path
   end
   
+  def push_data
+    datapoints = current_user.hours.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
+    current_user.goal.add datapoints
+  end
+  
   private
   def authorization_url
     "https://www.beeminder.com/apps/authorize?client_id=#{client_id}&redirect_uri=#{callback_uri}&response_type=token"

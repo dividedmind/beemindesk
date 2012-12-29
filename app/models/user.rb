@@ -10,4 +10,8 @@ class User < ActiveRecord::Base
   def goal
     beeminder.goal
   end
+  
+  def datapoints
+    @datapoints ||= goal.datapoints
+  end
 end

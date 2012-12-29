@@ -1,4 +1,5 @@
 %h1 Beemindesk
+= button_to "Push data", push_data_beeminder_path
 %section.odesk
   %h2 ODesk
   - if @user && @user.odesk
@@ -30,6 +31,14 @@
       - unless @user.goal
         %p Goal doesn't exist.
         = button_to "create it", create_goal_beeminder_path
+      - else
+        %table
+        - for d in @user.datapoints
+          %tr
+            %td
+              = d.timestamp
+            %td.number
+              = number_to_human d.value, strip_insignificant_zeros: false, significant: false, precision: 2
     - else
       %p
         Not logged into Beeminder.

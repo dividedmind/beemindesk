@@ -34,6 +34,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    faraday (0.8.4)
+      multipart-post (~> 1.1)
     haml (3.1.7)
     haml-rails (0.3.5)
       actionpack (>= 3.1, < 4.1)
@@ -41,9 +43,12 @@ GEM
       haml (~> 3.1)
       railties (>= 3.1, < 4.1)
     hike (1.2.1)
+    httpauth (0.2.0)
     i18n (0.6.1)
     journey (1.0.4)
     json (1.7.5)
+    jwt (0.1.5)
+      multi_json (>= 1.0)
     livescript (2.2.0)
       execjs
       livescript-source
@@ -59,6 +64,19 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.19)
     multi_json (1.5.0)
+    multipart-post (1.1.5)
+    oauth (0.4.7)
+    oauth-plugin (0.4.1)
+      multi_json
+      oauth (~> 0.4.4)
+      oauth2 (>= 0.5.0)
+      rack
+    oauth2 (0.8.0)
+      faraday (~> 0.8)
+      httpauth (~> 0.1)
+      jwt (~> 0.1.4)
+      multi_json (~> 1.0)
+      rack (~> 1.2)
     pg (0.14.1)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -130,6 +148,7 @@ PLATFORMS
 DEPENDENCIES
   haml-rails
   livescript-rails
+  oauth-plugin
   pg
   rails (= 3.2.9)
   rspec-rails

@@ -1,4 +1,9 @@
 Beemindesk::Application.routes.draw do
+  
+  get "beeminder" => 'beeminder#index'
+  delete "beeminder" => 'beeminder#destroy'
+  get "beeminder/callback"
+
   root to: 'dashboard#index'
 
   resources :oauth_consumers do

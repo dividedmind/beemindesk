@@ -18,3 +18,16 @@
     %p
       Not logged into ODesk.
     = button_to "login", oauth_consumer_path(:odesk), method: :get
+
+- if @user
+  %section.beeminder
+    %h2 Beeminder
+    - if @user.beeminder
+      %p
+        Logged into Beeminder as
+        = @user.beeminder.username
+      = #button_to "logout", beeminder_path, method: :delete, class: :destroy
+    - else
+      %p
+        Not logged into Beeminder.
+      = button_to "login", beeminder_path, method: :get

@@ -29,6 +29,17 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: beeminder_tokens; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE beeminder_tokens (
+    user_id character varying(255) NOT NULL,
+    username character varying(255) NOT NULL,
+    access_token character varying(255) NOT NULL
+);
+
+
+--
 -- Name: consumer_tokens; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -61,6 +72,14 @@ CREATE TABLE users (
 
 
 --
+-- Name: beeminder_tokens_pk; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY beeminder_tokens
+    ADD CONSTRAINT beeminder_tokens_pk PRIMARY KEY (user_id);
+
+
+--
 -- Name: consumer_tokens_pk; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -74,6 +93,13 @@ ALTER TABLE ONLY consumer_tokens
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pk PRIMARY KEY (id);
+
+
+--
+-- Name: fk__beeminder_tokens_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX fk__beeminder_tokens_user_id ON beeminder_tokens USING btree (user_id);
 
 
 --
@@ -91,6 +117,14 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: beeminder_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY beeminder_tokens
+    ADD CONSTRAINT beeminder_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: consumer_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -105,3 +139,5 @@ ALTER TABLE ONLY consumer_tokens
 INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('2');
+
+INSERT INTO schema_migrations (version) VALUES ('3');

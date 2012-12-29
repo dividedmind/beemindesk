@@ -4,7 +4,7 @@
   - if @user && @user.odesk
     %p
       Logged into ODesk as
-      = @user.id
+      = "#{@user.id}."
     = button_to "logout", oauth_consumer_path(:odesk), method: :delete, class: :destroy
     
     %table
@@ -25,8 +25,11 @@
     - if @user.beeminder
       %p
         Logged into Beeminder as
-        = @user.beeminder.username
+        = "#{@user.beeminder.username}."
       = #button_to "logout", beeminder_path, method: :delete, class: :destroy
+      - unless @user.goal
+        %p Goal doesn't exist.
+        = button_to "create it", create_goal_beeminder_path
     - else
       %p
         Not logged into Beeminder.

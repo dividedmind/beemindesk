@@ -6,4 +6,8 @@ class User < ActiveRecord::Base
   def hours
     odesk.client.hours
   end
+  
+  def goal
+    beeminder.goal
+  end
 end

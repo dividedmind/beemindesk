@@ -10,6 +10,8 @@ gem 'schema_plus'
 
 gem 'oauth-plugin'
 
+gem 'beeminder'
+
 group :test do
   gem 'rspec-rails'
   gem 'simplecov'

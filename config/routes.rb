@@ -1,8 +1,9 @@
 Beemindesk::Application.routes.draw do
   
-  get "beeminder" => 'beeminder#index'
-  delete "beeminder" => 'beeminder#destroy'
-  get "beeminder/callback"
+  resource :beeminder, controller: :beeminder do
+    get 'callback'
+    post 'create_goal'
+  end
 
   root to: 'dashboard#index'
 

@@ -1,5 +1,5 @@
 class BeeminderController < ApplicationController
-  def index
+  def show
     if current_user && current_user.beeminder.nil?
       redirect_to authorization_url
     else
@@ -14,6 +14,11 @@ class BeeminderController < ApplicationController
   
   def destroy
     current_user.beeminder.destroy
+    redirect_to root_path
+  end
+  
+  def create_goal
+    current_user.beeminder.create_goal
     redirect_to root_path
   end
   

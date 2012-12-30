@@ -28,12 +28,16 @@ class BeeminderToken < ActiveRecord::Base
       slug: goal_name,
       title: "Hours on ODesk",
       goal_type: :custom,
-      rate: 0,
       goaldate: 1.year.from_now.utc.to_i,
       ephem: true,
       kyoom: true,
       aggday: :last,
-      steppy: true
+      steppy: true,
+      rate: calculate_rate
     }
+  end
+  
+  def calculate_rate
+    user.total_hours / user.days_till_now * 7
   end
 end

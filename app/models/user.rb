@@ -14,4 +14,16 @@ class User < ActiveRecord::Base
   def datapoints
     @datapoints ||= goal.datapoints
   end
+  
+  def total_hours
+    hours.map {|x| x['hours']}.sum
+  end
+  
+  def total_days
+    hours.first['worked_on'] - hours.last['worked_on'] + 1
+  end
+  
+  def days_till_now
+    Date.today - hours.last['worked_on'] + 1
+  end
 end

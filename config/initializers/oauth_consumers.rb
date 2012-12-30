@@ -63,7 +63,7 @@
 # }
 #
 
-odesk = ENV['ODESK_API_CREDENTIALS'].split(':')
+odesk = ENV['ODESK_API_CREDENTIALS'].split(':') rescue ["",""]
 
 OAUTH_CREDENTIALS={
   odesk: {

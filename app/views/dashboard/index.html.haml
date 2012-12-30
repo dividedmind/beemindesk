@@ -1,45 +1,46 @@
 %h1 Beemindesk
 = button_to "Push data", push_data_beeminder_path
-%section.odesk
-  %h2 ODesk
-  - if @user && @user.odesk
-    %p
-      Logged into ODesk as
-      = "#{@user.id}."
-    = button_to "logout", oauth_consumer_path(:odesk), method: :delete, class: :destroy
-    
-    %table
-      - for d in @user.hours
-        %tr
-          %td
-            = d['worked_on']
-          %td.number
-            = number_to_human d['hours'], strip_insignificant_zeros: false, significant: false, precision: 2
-  - else
-    %p
-      Not logged into ODesk.
-    = button_to "login", oauth_consumer_path(:odesk), method: :get
-
-- if @user
-  %section.beeminder
-    %h2 Beeminder
-    - if @user.beeminder
+%article
+  %section.odesk
+    %h2 ODesk
+    - if @user && @user.odesk
       %p
-        Logged into Beeminder as
-        = "#{@user.beeminder.username}."
-      = #button_to "logout", beeminder_path, method: :delete, class: :destroy
-      - unless @user.goal
-        %p Goal doesn't exist.
-        = button_to "create it", create_goal_beeminder_path
-      - else
-        %table
-        - for d in @user.datapoints
+        Logged into ODesk as
+        = "#{@user.id}."
+      = button_to "logout", oauth_consumer_path(:odesk), method: :delete, class: :destroy
+      
+      %table
+        - for d in @user.hours
           %tr
             %td
-              = d.timestamp
+              = d['worked_on']
             %td.number
-              = number_to_human d.value, strip_insignificant_zeros: false, significant: false, precision: 2
+              = number_to_human d['hours'], strip_insignificant_zeros: false, significant: false, precision: 2
     - else
       %p
-        Not logged into Beeminder.
-      = button_to "login", beeminder_path, method: :get
+        Not logged into ODesk.
+      = button_to "login", oauth_consumer_path(:odesk), method: :get
+
+  - if @user
+    %section.beeminder
+      %h2 Beeminder
+      - if @user.beeminder
+        %p
+          Logged into Beeminder as
+          = "#{@user.beeminder.username}."
+        = #button_to "logout", beeminder_path, method: :delete, class: :destroy
+        - unless @user.goal
+          %p Goal doesn't exist.
+          = button_to "create it", create_goal_beeminder_path
+        - else
+          %table
+            - for d in @user.datapoints.sort {|b, a| a.timestamp <=> b.timestamp }
+              %tr
+                %td
+                  = d.timestamp.to_date
+                %td.number
+                  = number_to_human d.value, strip_insignificant_zeros: false, significant: false, precision: 2
+      - else
+        %p
+          Not logged into Beeminder.
+        = button_to "login", beeminder_path, method: :get

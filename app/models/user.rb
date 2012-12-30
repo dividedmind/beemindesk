@@ -30,4 +30,18 @@ class User < ActiveRecord::Base
   def ok_to_push
     odesk && beeminder && beeminder.goal_ok?
   end
+  
+  def push_data
+    return unless ok_to_push
+    dps = hours.reverse.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
+    dps.delete_if {|dp| already_pushed? dp }
+    goal.add dps
+  end
+  
+  private
+  def already_pushed? dp
+    datapoints.index do |d| 
+      (d.timestamp.to_date == dp.timestamp.to_date) && ((d.value - dp.value).abs < 0.1)
+    end
+  end
 end

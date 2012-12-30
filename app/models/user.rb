@@ -26,4 +26,8 @@ class User < ActiveRecord::Base
   def days_till_now
     Date.today - hours.last['worked_on'] + 1
   end
+  
+  def ok_to_push
+    odesk && beeminder && beeminder.goal_ok?
+  end
 end

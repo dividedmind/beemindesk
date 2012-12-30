@@ -6,11 +6,16 @@ class BeeminderToken < ActiveRecord::Base
   end
   
   def goal
-    client.goal goal_name rescue nil
+    @goal ||= client.goal goal_name rescue nil
   end
   
   def create_goal
     client.create_goal goal_options
+  end
+  
+  def goal_ok?
+    return unless goal
+    goal.instance_variable_get(:@kyoom) && goal.instance_variable_get(:@aggday) == 'last'
   end
 
   private

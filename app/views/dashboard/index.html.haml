@@ -1,5 +1,6 @@
 %h1 Beemindesk
-= button_to "Push data", push_data_beeminder_path
+- if @user && @user.ok_to_push
+  = button_to "Push data", push_data_beeminder_path
 %article
   %section.odesk
     %h2 ODesk
@@ -33,6 +34,11 @@
           %p Goal doesn't exist.
           = button_to "create it", create_goal_beeminder_path
         - else
+          - unless @user.beeminder.goal_ok?
+            %p 
+              Goal isn't set up right. 
+              Please set kyoom = true and aggday = last.
+              You might also want to turn on steppy.
           %table
             - for d in @user.datapoints.sort {|b, a| a.timestamp <=> b.timestamp }
               %tr

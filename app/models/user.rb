@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   
   def push_data
     return unless ok_to_push
-    dps = hours.reverse.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
+    dps = hours.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
     dps.delete_if {|dp| already_pushed? dp }
     goal.add dps
   end

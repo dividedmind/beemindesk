@@ -12,6 +12,8 @@ gem 'oauth-plugin'
 
 gem 'beeminder'
 
+gem 'thin'
+
 group :test do
   gem 'rspec-rails'
   gem 'simplecov'

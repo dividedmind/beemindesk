@@ -8,6 +8,7 @@ class BeeminderController < ApplicationController
   end
 
   def callback
+    BeeminderToken.find(current_user).destroy rescue nil
     current_user.create_beeminder params.slice('access_token', 'username').merge(user: current_user)
     redirect_to root_path
   end

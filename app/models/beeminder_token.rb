@@ -13,6 +13,13 @@ class BeeminderToken < ActiveRecord::Base
     client.create_goal goal_options
   end
   
+  def is_valid?
+    client.get('/users/me.json')
+    true
+  rescue
+    false
+  end
+  
   def goal_ok?
     return unless goal
     goal.instance_variable_get(:@kyoom) && goal.instance_variable_get(:@aggday) == 'last'

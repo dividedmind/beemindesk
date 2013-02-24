@@ -22,7 +22,7 @@ class BeeminderToken < ActiveRecord::Base
   
   def goal_ok?
     return unless goal
-    goal.instance_variable_get(:@kyoom) && goal.instance_variable_get(:@aggday) == 'last'
+    goal.instance_variable_get(:@kyoom)
   end
 
   private

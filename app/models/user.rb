@@ -37,15 +37,51 @@ class User < ActiveRecord::Base
   
   def push_data
     return unless ok_to_push
-    dps = hours.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
-    dps.delete_if {|dp| already_pushed? dp }
-    goal.add dps
+    o_dps = hours.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
+    bm_dps = sort_dps datapoints
+    stale = []
+    updated = []
+    o_dps.each do |dp|
+      already_there = false
+      date = dp.timestamp.to_date
+      current = bm_dps[date] || []
+      current.each do |cdp|
+        if cdp == dp
+          already_there = true
+        else
+          stale << cdp
+        end
+      end
+      updated << dp unless already_there
+      bm_dps.delete date
+    end
+    
+    stale += bm_dps.values.flatten
+    
+    puts "Stale: #{pp_dps stale}"
+    puts "Updated: #{pp_dps updated}"
+    
+    goal.delete stale
+    goal.add updated
   end
   
   private
-  def already_pushed? dp
-    datapoints.index do |d| 
-      (d.timestamp.to_date == dp.timestamp.to_date) && ((d.value - dp.value).abs < 0.1)
+  def pp_dps dps
+    dps.map { |dp| "<#{dp.timestamp.to_date} #{dp.value} h>" }.join", "
+  end
+  
+  def sort_dps datapoints
+    sorted = {}
+    datapoints.each do |dp|
+      list = (sorted[dp.timestamp.to_date] ||= [])
+      list << dp
     end
+    return sorted
+  end
+end
+
+class Beeminder::Datapoint
+  def == b
+    (timestamp.to_date == b.timestamp.to_date) && ((value - b.value).abs < 0.1)
   end
 end

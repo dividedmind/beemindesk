@@ -61,8 +61,8 @@ class User < ActiveRecord::Base
     puts "Stale: #{pp_dps stale}"
     puts "Updated: #{pp_dps updated}"
     
-    goal.delete stale
     goal.add updated
+    goal.delete stale
   end
   
   private

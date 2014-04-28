@@ -14,7 +14,11 @@ class BeeminderToken < ActiveRecord::Base
   end
   
   def is_valid?
-    client.get('/users/me.json')
+    me = client.get('/users/me.json')
+    unless username
+      self.username = me['username']
+      save
+    end
     true
   rescue
     false

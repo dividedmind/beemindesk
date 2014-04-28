@@ -14,6 +14,10 @@ gem 'beeminder'
 
 gem 'thin'
 
+group :development do
+  gem 'dotenv-rails'
+end
+
 group :test do
   gem 'rspec-rails'
   gem 'simplecov'

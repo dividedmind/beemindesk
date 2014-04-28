@@ -34,7 +34,7 @@ SET default_with_oids = false;
 
 CREATE TABLE beeminder_tokens (
     user_id character varying(255) NOT NULL,
-    username character varying(255) NOT NULL,
+    username character varying(255),
     access_token character varying(255) NOT NULL
 );
 
@@ -141,3 +141,5 @@ INSERT INTO schema_migrations (version) VALUES ('1');
 INSERT INTO schema_migrations (version) VALUES ('2');
 
 INSERT INTO schema_migrations (version) VALUES ('3');
+
+INSERT INTO schema_migrations (version) VALUES ('4');

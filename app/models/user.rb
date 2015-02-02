@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
     updated = []
     o_dps.each do |dp|
       already_there = false
-      date = dp.timestamp.to_date
+      date = dp.timestamp.utc.to_date
       current = bm_dps[date] || []
       current.each do |cdp|
         if cdp == dp
@@ -67,13 +67,13 @@ class User < ActiveRecord::Base
   
   private
   def pp_dps dps
-    dps.map { |dp| "<#{dp.timestamp.to_date} #{dp.value} h>" }.join", "
+    dps.map { |dp| "<#{dp.timestamp.utc.to_date} #{dp.value} h>" }.join", "
   end
   
   def sort_dps datapoints
     sorted = {}
     datapoints.each do |dp|
-      list = (sorted[dp.timestamp.to_date] ||= [])
+      list = (sorted[dp.timestamp.utc.to_date] ||= [])
       list << dp
     end
     return sorted
@@ -82,6 +82,6 @@ end
 
 class Beeminder::Datapoint
   def == b
-    (timestamp.to_date == b.timestamp.to_date) && ((value - b.value).abs < 0.1)
+    (timestamp.utc.to_date == b.timestamp.utc.to_date) && ((value - b.value).abs < 0.1)
   end
 end

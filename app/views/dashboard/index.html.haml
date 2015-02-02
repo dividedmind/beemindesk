@@ -43,7 +43,7 @@
             - for d in @user.datapoints.sort {|b, a| a.timestamp <=> b.timestamp }
               %tr
                 %td
-                  = d.timestamp.to_date
+                  = d.timestamp.utc.to_date
                 %td.number
                   = number_to_human d.value, strip_insignificant_zeros: false, significant: false, precision: 2
       - else

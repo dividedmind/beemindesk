@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   
   def push_data
     return unless ok_to_push
-    o_dps = hours.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'] }
+    o_dps = hours.map {|h| Beeminder::Datapoint.new value: h['hours'], timestamp: h['worked_on'].to_time }
     bm_dps = sort_dps datapoints
     stale = []
     updated = []
